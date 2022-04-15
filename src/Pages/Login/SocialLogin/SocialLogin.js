@@ -1,23 +1,29 @@
 import React from "react";
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
+import {
+  useSignInWithGithub,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
 import twitterLogo from "../../../images/logo/twitter-logo.png";
 
 const SocialLogin = () => {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  const [signInWithGithub, user1, loading1, error1] = useSignInWithGithub(auth);
   const navigate = useNavigate();
   let errorElement;
 
-  if (error) {
+  if (error || error1) {
     errorElement = (
       <div>
-        <p className="text-danger">Error: {error.message}</p>
+        <p className="text-danger">
+          Error: {error?.message} {error1?.message}
+        </p>
       </div>
     );
   }
 
-  if (user) {
+  if (user || user1) {
     navigate("/home");
   }
 
@@ -28,7 +34,7 @@ const SocialLogin = () => {
         <p className="mt-2 px-2">Or</p>
         <div style={{ height: "1px" }} className="bg-primary w-50"></div>
       </div>
-      {errorElement}
+      <p className="text-center">{errorElement}</p>
       <div>
         <button
           onClick={() => signInWithGoogle()}
@@ -49,7 +55,10 @@ const SocialLogin = () => {
           />
           <span className="px-2">Facebook Sign In</span>
         </button>
-        <button className="btn btn-info w-50 d-block mx-auto my-2">
+        <button
+          onClick={() => signInWithGithub()}
+          className="btn btn-info w-50 d-block mx-auto my-2"
+        >
           <img
             style={{ width: "30px", height: "25px" }}
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAjFQTFRFAAAAUlBQMS8vIR8fIiEhMzExU1FRVVNTLi0tJyYmHRsbGhgYGBYWGBcXGhgYHBsbKCYmLiwsamhoOzo6IB4eGhgYFxUVFxUVGhgYIB8fPTs7MC4uJyUlGxkZHBoaKCYmMzExIiEhGBYWGRcXIyEhMS8vGhgYGBYWIB4eGxkZGxkZIR8fGxkZNDIyPz09HRsbHRsbQD4+JSMjHhwcHx0dIR8fIR8fHx0dHhwcJyUlREJCHBoaHhwcPz09KykpGBYWGxkZGxkZGRcXLCoqXFpaIB4eHhwcHRsbIR8ff35+KScnGhgYFxUVIiEhIiAgLSsrJyUlKykpGhgYGRcXJSMjIyEhGxkZWFdXQkBAGxkZJSMjHRsbGhgYOjg4Ly4uHhwcKCYmGRcXJyUlJiQkGRcXKSgoJiQkGRcXIyEhIiAgGhgYJyUlPDo6HBoaGhgYKCYmf35+YV9fJiUlGRcXHBoaRkREJyUlGxkZIiAgGhgYGRgYIyEhKigoTUtLxcTEmZiYQD4+KScnJCIiGRcXKScnLiwsGxkZKCYmMTAwJCIipqWlcG9vIiAgGxkZLiwsJiQkGBYWLCoqLiwsHRsbHhwcMC4uKScnGBYWKCYmfn19IB4eHBoaREJCT05OSUdHTEpKMS8vIR8fyMjINjQ0GBYWGxkZHRsbQ0JCOzo6IR8fOzk5a2pqKCYmQkFBOjg4GxkZKCYmd3Z2MjExJSMjGxkZQ0FBOTc3GxkZMC4uRUND7e3t1s9RKAAAALt0Uk5TAAUXHx8WBQEcbcvj6+viyGcZARGV5/7/5I4NAkrf2UECT/TxRh/o/rnq5rviGAa01QVeq4RvcIWsWATiqgQ/+MLP9DQEtdjlpwIj7/1daRw/I+79NFfZDRTgSlndERhMTPAlLPY/LvhndPMnDNLtMwEBO/LICHHluPbreyYKAAALKYbuYBTafHp9AAGJ0g9P+2GU3N4vSvpEAZzMHh4qAzuQABL83K8lP5IPAVEzQNhKABd40B8pzhMIADY659MAAAFwSURBVHicvZDVVsNAFEUHd4dc3Glxd3d3dyju7u7uTnF3d76OSVYKU+AVzkNy9t0rN5Mg9F8RERUTl5D83UlJy8jKySsoKimrqP60auoaFDChNLW0v0kdXT0gom9gKKSNjEEoJqakNeMA19xC4CytAKxtvqytHYA9cnB0cnZxdXP38EReAN4+n9rXD8Cf3BYAEBgkgOAQvDGU1GF4EB7BQmQUQHQMqWPxN3LiWIgHApgkJAIkJbOQgnVqGqnTM/Aok4Us3LNzSJ2riUd5LOTjzisgdWERHhWzUFKKoYzU5XhQUclCVTWmmto6gaxvaMSDpmYBt1Ctbe0dnV3dPQj19vUPDGIbPfS5a3iENzrGBd74BEKTU43Mj5+e+XrX7Nzc/MLi0jLdVxi7ukYcZZ0PG5tb2zt036Utd2+fPOoB//Do+PiErqf0s2fnSCgXl0cUXNHtGqib2zv0PfcPj0/0/fml5fWHpPPGXN+bf5V/kA/xc1WI5J5toQAAAABJRU5ErkJggg=="

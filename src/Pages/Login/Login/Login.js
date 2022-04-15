@@ -12,12 +12,21 @@ const Login = () => {
 
   let location = useLocation();
   let from = location.state?.from?.pathname || "/";
+  let errorElement;
 
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
   if (user) {
     navigate(from, { replace: true });
+  }
+
+  if (error) {
+    errorElement = (
+      <div>
+        <p className="text-danger">Error: {error?.message}</p>
+      </div>
+    );
   }
 
   const handleSubmit = (event) => {
@@ -56,7 +65,7 @@ const Login = () => {
           Login
         </Button>
       </Form>
-
+      {errorElement}
       <p>
         New to Genious Car?{" "}
         <Link
