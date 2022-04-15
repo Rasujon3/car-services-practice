@@ -6,12 +6,17 @@ import {
 import { useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
 import twitterLogo from "../../../images/logo/twitter-logo.png";
+import Loading from "../../Shared/Loading/Loading";
 
 const SocialLogin = () => {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const [signInWithGithub, user1, loading1, error1] = useSignInWithGithub(auth);
   const navigate = useNavigate();
   let errorElement;
+
+  if (loading || loading1) {
+    return <Loading />;
+  }
 
   if (error || error1) {
     errorElement = (
@@ -68,7 +73,6 @@ const SocialLogin = () => {
           <img
             style={{ width: "30px", height: "25px" }}
             src={twitterLogo}
-            // src="https://i.ibb.co/1834J2B/twitter-logo.png"
             alt="google-login"
           />
           <span className="px-2">Twitter Sign In</span>
