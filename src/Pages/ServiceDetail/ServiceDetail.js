@@ -17,7 +17,6 @@ const ServiceDetail = () => {
 
   return (
     <div>
-      <h1>ID: {serviceId}</h1>
       <h2 className="text-center">More details about: {services.name}</h2>
       <div className="service">
         <img height={400} className="w-100" src={services.img} alt="" />
